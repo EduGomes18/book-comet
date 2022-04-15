@@ -1,7 +1,7 @@
 import treatFields from "../utils/treatFields";
 import { errorResponse } from "../utils/responses";
 
-export const validateBookReq = (req, res, next) => {
+export const validateInventoryReq = (req, res, next) => {
   try {
     const bodies = Object.keys(req.body);
     const { body } = req;
@@ -14,29 +14,11 @@ export const validateBookReq = (req, res, next) => {
     if (bodies.length > 0) {
       bodies.map((q) => {
         switch (q) {
-          case "title":
-            treatFields(q, "string", body[q]);
-            break;
-          case "description":
-            treatFields(q, "string", body[q]);
-            break;
-          case "author":
+          case "quantity":
             treatFields(q, "number", body[q]);
             break;
-          case "publisher":
-            treatFields(q, "string", body[q]);
-            break;
-          case "keywords":
-            treatFields(q, "array", body[q]);
-            break;
-          case "type":
-            treatFields(q, "enum", body[q], ["ebook", "book"]);
-            break;
-          case "publishedYear":
+          case "book":
             treatFields(q, "number", body[q]);
-            break;
-          case "summary":
-            treatFields(q, "string", body[q]);
             break;
         }
       });
@@ -49,7 +31,7 @@ export const validateBookReq = (req, res, next) => {
   }
 };
 
-export const validateBookQuery = (req, res, next) => {
+export const validateInventoryQuery = (req, res, next) => {
   try {
     const queries = Object.keys(req.query);
     const { query } = req;
@@ -67,9 +49,6 @@ export const validateBookQuery = (req, res, next) => {
             break;
           case "limit":
             treatFields(q, "number", query[q]);
-            break;
-          case "search":
-            treatFields(q, "string", query[q]);
             break;
           case "order":
             treatFields(q, "string", query[q]);

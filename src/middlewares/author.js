@@ -1,7 +1,7 @@
 import treatFields from "../utils/treatFields";
 import { errorResponse } from "../utils/responses";
 
-export const validateBookReq = (req, res, next) => {
+export const validateAuthorReq = (req, res, next) => {
   try {
     const bodies = Object.keys(req.body);
     const { body } = req;
@@ -14,28 +14,10 @@ export const validateBookReq = (req, res, next) => {
     if (bodies.length > 0) {
       bodies.map((q) => {
         switch (q) {
-          case "title":
+          case "name":
             treatFields(q, "string", body[q]);
             break;
-          case "description":
-            treatFields(q, "string", body[q]);
-            break;
-          case "author":
-            treatFields(q, "number", body[q]);
-            break;
-          case "publisher":
-            treatFields(q, "string", body[q]);
-            break;
-          case "keywords":
-            treatFields(q, "array", body[q]);
-            break;
-          case "type":
-            treatFields(q, "enum", body[q], ["ebook", "book"]);
-            break;
-          case "publishedYear":
-            treatFields(q, "number", body[q]);
-            break;
-          case "summary":
+          case "surname":
             treatFields(q, "string", body[q]);
             break;
         }
@@ -49,7 +31,7 @@ export const validateBookReq = (req, res, next) => {
   }
 };
 
-export const validateBookQuery = (req, res, next) => {
+export const validateAuthorQuery = (req, res, next) => {
   try {
     const queries = Object.keys(req.query);
     const { query } = req;

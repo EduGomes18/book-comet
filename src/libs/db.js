@@ -66,7 +66,7 @@ export const updateDb = async (collection = "", id = 0, data = {}) => {
   try {
     let dbData = await readFile(dbPath);
 
-    const noContent = `Can't update ${collection}, not found, theres no content.`;
+    const noContent = `Can't update ${collection}, not found, there's no content.`;
 
     if (dbData && dbData?.length > 0) {
       dbData = JSON.parse(dbData);
@@ -123,7 +123,7 @@ export const deleteDb = async (collection = "", id = 0) => {
   try {
     let dbData = await readFile(dbPath);
 
-    const noContent = `Can't remove ${collection}, not found, theres no content.`;
+    const noContent = `Can't remove ${collection}, not found, there's no content.`;
 
     if (dbData && dbData?.length > 0) {
       dbData = JSON.parse(dbData);
@@ -176,14 +176,20 @@ export const findDb = async (collection = "", query = {}) => {
   try {
     let dbData = await readFile(dbPath);
 
+    const noContent = `${collection}, not found, there's no content.`;
+
     if (dbData && dbData.length > 0) {
       dbData = JSON.parse(dbData);
       const getCollection = dbData[collection];
-      if (!getCollection) throw 404;
+      if (!getCollection)
+        return {
+          status: 404,
+          error: noContent,
+        };
 
       const total = getCollection.length;
 
-      const { limit, search, searchField, page, orderBy } = query;
+      const { limit, search, searchField, page, orderBy, where } = query;
 
       let finalLimit = 20;
       let offset = 0;
@@ -193,7 +199,17 @@ export const findDb = async (collection = "", query = {}) => {
 
       let finalContent;
 
-      if (search && searchField) {
+      if (where) {
+        finalContent = getCollection
+          .filter((content, ind) => {
+            const whereKeys = Object.keys(where);
+            const conditions = whereKeys.map((k) => content[k] === where[k]);
+            if (conditions.every((e) => e === true)) {
+              return true;
+            } else return false;
+          })
+          .slice(0, limit);
+      } else if (search && searchField) {
         finalContent = getCollection
           .filter(
             (content, ind) =>
@@ -224,7 +240,10 @@ export const findDb = async (collection = "", query = {}) => {
 
       return finalContent;
     } else {
-      throw 404;
+      return {
+        status: 404,
+        error: noContent,
+      };
     }
   } catch (error) {
     throw error?.message || error;
@@ -236,7 +255,7 @@ export const findOneDb = async (collection = "", id = 0) => {
   try {
     let dbData = await readFile(dbPath);
 
-    const noContent = `Can't find ${collection}, not found, theres no content.`;
+    const noContent = `Can't find ${collection}, not found, there's no content.`;
 
     if (dbData && dbData?.length > 0) {
       dbData = JSON.parse(dbData);

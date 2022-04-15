@@ -8,8 +8,17 @@ import {
 
 export const createBook = async (req, res) => {
   try {
-    const { title, description, keywords, author, publisher, type, extension } =
-      req.body;
+    const {
+      title,
+      description,
+      keywords,
+      author,
+      publisher,
+      type,
+      extension,
+      publishedYear,
+      summary,
+    } = req.body;
 
     if (!title || !description || !type)
       return missingResponse(res, {
@@ -23,6 +32,35 @@ export const createBook = async (req, res) => {
         });
     }
 
+    const findAuthor = await findDb("authors", {
+      where: {
+        id: Number(author),
+      },
+    });
+
+    if (findAuthor?.error) {
+      return errorResponse(res, findAuthor.error, findAuthor.status);
+    }
+
+    if (findAuthor?.length === 0) {
+      return missingResponse(res, {
+        message: `The choosen Author doesnt exists.`,
+      });
+    }
+
+    const exists = await findDb("books", {
+      where: {
+        title,
+        author,
+      },
+    });
+
+    if (exists.length > 0) {
+      return missingResponse(res, {
+        message: `Book width title ${title}, and author ${author} already exists`,
+      });
+    }
+
     const newBook = await createDb("books", {
       title,
       description,
@@ -31,6 +69,8 @@ export const createBook = async (req, res) => {
       publisher,
       type,
       extension,
+      publishedYear,
+      summary,
     });
 
     return successResponse(res, newBook);
@@ -65,6 +105,8 @@ export const getBooks = async (req, res) => {
       orderBy: order ? order : "DESC",
     });
 
+    if (content.error) return errorResponse(res, content.error, content.status);
+
     return successResponse(res, content);
   } catch (error) {
     return errorResponse(res, error);
@@ -73,7 +115,17 @@ export const getBooks = async (req, res) => {
 
 export const updateBook = async (req, res) => {
   try {
-    const { title, description, keywords, author, publisher, type } = req.body;
+    const {
+      title,
+      description,
+      keywords,
+      author,
+      publisher,
+      type,
+      publishedYear,
+      extension,
+      summary,
+    } = req.body;
     const { id } = req.params;
 
     if (!title || !description || !type)
@@ -96,6 +148,8 @@ export const updateBook = async (req, res) => {
       publisher,
       type,
       extension,
+      publishedYear,
+      summary,
     });
 
     if (updatedBook.error)
@@ -111,10 +165,35 @@ export const deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const findInventory = await findDb("inventories", {
+      where: {
+        book: Number(id),
+      },
+    });
+
+    if (findInventory.length > 0 && findInventory[0].quantity > 0) {
+      return missingResponse(res, {
+        message:
+          "Canot delete book, the book has inventory with quantity positive.",
+      });
+    }
+
     const deletedBook = await deleteDb("books", id);
 
     if (deletedBook.error)
       return errorResponse(res, deletedBook.error, deletedBook.status);
+
+    const removeInventory = findInventory.map(async (inv) => {
+      const deleteInventory = await deleteDb("inventories", inv.id);
+      if (deleteInventory.error)
+        return errorResponse(
+          res,
+          deleteInventory.error,
+          deleteInventory.status
+        );
+    });
+
+    await Promise.all(removeInventory);
 
     return successResponse(res, { removed: true });
   } catch (error) {
