@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get("/", function (req, res, next) {
   res.status(200).send({
-    title: "Ewali test api",
+    message: "Welcome to Book Comet api!",
   });
 });
 

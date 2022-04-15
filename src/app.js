@@ -2,7 +2,7 @@ import express from "express";
 
 import routes from "./routes";
 import books from "./routes/books.js";
-import { checkIfExistDb } from "./utils/db";
+import { checkIfExistDb } from "./libs/db";
 
 checkIfExistDb();
 const app = express();
