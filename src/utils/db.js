@@ -4,7 +4,8 @@ import path from "path";
 const dbPath = path.join(__dirname, "../../db.json");
 const firstId = 1564;
 
-const checkIfExistDb = async () => {
+export const checkIfExistDb = async () => {
+  console.log("Rodei --");
   try {
     await stat(dbPath);
   } catch (error) {
@@ -60,16 +61,6 @@ export const createDb = async (collection, data) => {
 };
 
 export const updateDb = async (collection, data) => {
-  // ler o arquivo
-
-  // criar caso nao existea
-
-  console.log("Colecao", collection);
-  // ler e reescrever
-  //
-
-  await checkIfExistDb();
-
   try {
     let dbData = await readFile(dbPath);
 
@@ -121,17 +112,7 @@ export const deleteDb = async (collection, data) => {
   }
 };
 
-export const listDb = async (collection, data) => {
-  // ler o arquivo
-
-  // criar caso nao existea
-
-  console.log("Colecao", collection);
-  // ler e reescrever
-  //
-
-  await checkIfExistDb();
-
+export const listDb = async (collection) => {
   try {
     let dbData = await readFile(dbPath);
 
