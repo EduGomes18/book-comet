@@ -10,11 +10,12 @@ import {
 } from "../controllers/author";
 
 import { validateAuthorQuery, validateAuthorReq } from "../middlewares/author";
+import { verifyToken } from "../middlewares/auth";
 
-router.get("/", validateAuthorQuery, getAuthors);
-router.get("/:id", validateAuthorQuery, getAuthorById);
-router.post("/", validateAuthorReq, createAuthor);
-router.delete("/:id", validateAuthorReq, deleteAuthor);
-router.put("/:id", validateAuthorReq, updateAuthor);
+router.get("/", verifyToken, validateAuthorQuery, getAuthors);
+router.get("/:id", verifyToken, validateAuthorQuery, getAuthorById);
+router.post("/", verifyToken, validateAuthorReq, createAuthor);
+router.delete("/:id", verifyToken, validateAuthorReq, deleteAuthor);
+router.put("/:id", verifyToken, validateAuthorReq, updateAuthor);
 
 export default router;

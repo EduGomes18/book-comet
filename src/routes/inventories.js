@@ -15,11 +15,18 @@ import {
   validateInventoryQuery,
 } from "../middlewares/inventory";
 
-router.get("/", validateInventoryQuery, getInventories);
-router.get("/:id", validateInventoryQuery, getInventoryById);
-router.post("/", validateInventoryReq, createInventory);
-router.delete("/:id", validateInventoryReq, deleteInventory);
-router.put("/add/:id", validateInventoryReq, addBookInventory);
-router.put("/remove/:id", validateInventoryReq, removeBookInventory);
+import { verifyToken } from "../middlewares/auth";
+
+router.get("/", verifyToken, validateInventoryQuery, getInventories);
+router.get("/:id", verifyToken, validateInventoryQuery, getInventoryById);
+router.post("/", verifyToken, validateInventoryReq, createInventory);
+router.delete("/:id", verifyToken, validateInventoryReq, deleteInventory);
+router.put("/add/:id", verifyToken, validateInventoryReq, addBookInventory);
+router.put(
+  "/remove/:id",
+  verifyToken,
+  validateInventoryReq,
+  removeBookInventory
+);
 
 export default router;
