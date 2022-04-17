@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import routes from "./routes";
 import books from "./routes/books";
 import authors from "./routes/authors";
@@ -11,6 +12,7 @@ dotenv.config();
 checkIfExistDb();
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use("/", routes);
 app.use("/auth", authentication);
 app.use("/book", books);

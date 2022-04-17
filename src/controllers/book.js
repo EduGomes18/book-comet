@@ -71,6 +71,8 @@ export const createBook = async (req, res) => {
       extension,
       publishedYear,
       summary,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     return successResponse(res, newBook);
@@ -150,6 +152,7 @@ export const updateBook = async (req, res) => {
       extension,
       publishedYear,
       summary,
+      updated_at: new Date(),
     });
 
     if (updatedBook.error)

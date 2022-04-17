@@ -19,6 +19,8 @@ export const createAuthor = async (req, res) => {
     const newAuthor = await createDb("authors", {
       name,
       surname,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     return successResponse(res, newAuthor);
@@ -75,6 +77,7 @@ export const updateAuthor = async (req, res) => {
     const updateAuthor = await updateDb("authors", id, {
       name,
       surname,
+      updated_at: new Date(),
     });
 
     if (updateAuthor.error)

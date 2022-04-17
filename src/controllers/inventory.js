@@ -51,6 +51,8 @@ export const createInventory = async (req, res) => {
     const newInventory = await createDb("inventories", {
       book,
       quantity,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     return successResponse(res, newInventory);
@@ -109,6 +111,7 @@ export const addBookInventory = async (req, res) => {
 
     const updateInventory = await updateDb("inventories", id, {
       quantity: content.quantity + quantity,
+      updated_at: new Date(),
     });
 
     if (updateInventory.error)
@@ -144,6 +147,7 @@ export const removeBookInventory = async (req, res) => {
 
     const updateInventory = await updateDb("inventories", id, {
       quantity: finalQuantity,
+      updated_at: new Date(),
     });
 
     if (updateInventory.error)

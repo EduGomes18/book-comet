@@ -46,6 +46,8 @@ export const createUser = async (req, res) => {
       lastName,
       email: email.trim().toLowerCase(),
       password: encryptedPassword,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
 
     return successResponse(res, newUser);
@@ -123,26 +125,7 @@ export const getUserMe = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { quantity } = req.body;
-    const { id } = req.params;
-
-    if (!quantity || quantity < 0)
-      return missingResponse(res, {
-        message: "Missing quantity, or quantity less than 1.",
-      });
-
-    const content = await findOneDb("inventories", id);
-
-    if (content.error) return errorResponse(res, content.error, content.status);
-
-    const updateInventory = await updateDb("inventories", id, {
-      quantity: content.quantity + quantity,
-    });
-
-    if (updateInventory.error)
-      return errorResponse(res, updateInventory.error, updateInventory.status);
-
-    return successResponse(res, updateInventory);
+    return successResponse(res, { message: "Not finished hehe" });
   } catch (error) {
     return errorResponse(res, error);
   }
