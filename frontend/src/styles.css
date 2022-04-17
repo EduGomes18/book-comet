@@ -1,0 +1,197 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+input {
+  display: flex;
+  height: 30px;
+  padding: 6px 20px;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+select {
+  display: flex;
+  height: 30px;
+  padding: 6px 20px;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+
+textarea {
+  display: flex;
+  height: 50px;
+  padding: 6px 20px;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+
+button {
+  display: flex;
+  height: 30px;
+  padding: 6px 20px;
+  justify-content: center;
+  border: 0;
+  color: #ffffff;
+  background-color: #3b8253;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+a {
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+  align-self: flex-end;
+  margin: 5px 0 10px 0;
+  font-size: 14px;
+}
+
+a:hover {
+  cursor: pointer;
+}
+button:hover {
+  background-color: #3b8253b9;
+  cursor: pointer;
+}
+
+button[disabled]:hover {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #202103;
+  font-family: "PublicPixel", Arial, Helvetica, sans-serif;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "PublicPixel", Arial, Helvetica, sans-serif;
+}
+
+p {
+  font-size: 16px;
+  color: #273f0b;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+
+.error {
+  display: flex;
+  width: 100%;
+  padding: 0 6px;
+  justify-content: flex-start;
+}
+.error p {
+  font-size: 12px !important;
+  color: #f1f;
+  margin-bottom: 10px !important;
+}
+
+@font-face {
+  font-family: "PublicPixel";
+  src: local("PublicPixel"),
+    url(./assets/fonts/PublicPixel.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RetroGaming";
+  src: local("RetroGaming"),
+    url(./assets/fonts/RetroGaming.ttf) format("truetype");
+}
+
+@keyframes load {
+  0% {
+    background: #689cc5;
+  }
+  12.5% {
+    background: #689cc5;
+  }
+  12.625% {
+    background: #131d24;
+  }
+  100% {
+    background: #131d24;
+  }
+}
+.load div {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #131d24;
+  animation: load 1s linear infinite;
+}
+.load-block {
+  width: 30px;
+  height: 10px;
+  display: inline-block;
+  overflow: hidden;
+}
+.load {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* transform: translateZ(0) scale(1); */
+  /* backface-visibility: hidden; */
+  transform-origin: 0 0; /* see note above */
+}
+.load div {
+  box-sizing: content-box;
+}
+
+.noData {
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+  font-size: 12px;
+  color: #3b8253b9;
+  font-family: "PublicPixel", Arial, Helvetica, sans-serif;
+}
+
+.btnSmall {
+  display: flex;
+  height: 20px;
+  padding: 4px 6px;
+  justify-content: center;
+  border: 0;
+  font-size: 10px;
+  color: #ffffff;
+  background-color: #3b8253;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.loadingBox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: all 0.3s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  background: #023a2228;
+}

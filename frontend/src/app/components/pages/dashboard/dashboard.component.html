@@ -1,0 +1,85 @@
+<div class="block d-flex">
+  <h1>Welcome {{ user.firstName }}, to Book comet!</h1>
+  <div class="tableHeader d-flex">
+    <div class="searchGroup">
+      <input
+        [(ngModel)]="searchInput"
+        (keyup.enter)="handleData()"
+        placeholder="Search for books..."
+      />
+      <button (click)="handleData()">Search</button>
+    </div>
+
+    <button (click)="handleShow()">Add Book</button>
+  </div>
+  <div class="table d-flex">
+    <div *ngIf="loading === true" class="loadingBox">
+      <div class="load-block">
+        <div class="load">
+          <div style="left: 0; top: 0; animation-delay: 0s"></div>
+          <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+          <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tableLineHeader d-flex">
+      <div class="d-flex col colb">
+        <span>#ID</span>
+      </div>
+      <div class="d-flex col colb"><span>Title</span></div>
+      <div class="d-flex col colb"><span>Author</span></div>
+      <div class="d-flex col colb"><span>Type</span></div>
+      <div class="d-flex col colb"><span>Published year</span></div>
+      <div class="d-flex col colb"><span>Actions</span></div>
+    </div>
+
+    <div *ngIf="books.length > 0; else noData">
+      <div *ngFor="let book of books" class="tableLine d-flex">
+        <div class="d-flex col">
+          <span>{{ book.id }}</span>
+        </div>
+        <div class="d-flex col">
+          <span>{{ book.title }}</span>
+        </div>
+        <div class="d-flex col">
+          <span>{{ book.author?.name }} {{ book.author?.surname }}</span>
+        </div>
+        <div class="d-flex col">
+          <span>{{ book.type }}</span>
+        </div>
+        <div class="d-flex col">
+          <span>{{ book.publishedYear }}</span>
+        </div>
+        <div class="d-flex col">
+          <button class="btnSmall">Edit</button>
+        </div>
+      </div>
+      <div class="tableFooter d-flex">
+        <span>Total: {{ total }}</span>
+        <div class="btns">
+          <button
+            (click)="setType('prev')"
+            [disabled]="pagination.page === 1"
+            class="btnSmall"
+          >
+            < Prev
+          </button>
+          <button
+            (click)="setType('next')"
+            [disabled]="pagination.page === pages"
+            class="btnSmall"
+          >
+            Next >
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noData>
+      <div class="d-flex noData">
+        <h2>No data found...</h2>
+      </div>
+    </ng-template>
+  </div>
+  <app-book-form [show]="show" (close)="onClose()"></app-book-form>
+</div>

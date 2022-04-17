@@ -1,0 +1,36 @@
+<form (ngSubmit)="submit()" [formGroup]="loginForm" #formDir="ngForm">
+  <h1>Welcome to Book Comet</h1>
+  <p>Login now</p>
+
+  <input type="email" required placeholder="E-mail" formControlName="email" />
+
+  <div class="error" *ngIf="email.invalid && formDir.submitted">
+    <p *ngIf="email.errors?.['email']">E-mail is invalid!</p>
+    <p *ngIf="email.errors?.['required']">Email is required!</p>
+  </div>
+
+  <input
+    type="password"
+    required
+    placeholder="Password"
+    formControlName="password"
+  />
+
+  <div class="error" *ngIf="password.invalid && formDir.submitted">
+    <p *ngIf="password.errors?.['required']">Password is required!</p>
+    <p *ngIf="password.errors?.['minlength']">Min of 6 length!</p>
+  </div>
+
+  <a routerLink="/register">Register now</a>
+
+  <button type="submit">
+    {{ loading === false ? "Login" : "" }}
+    <div *ngIf="loading === true" class="load-block">
+      <div class="load">
+        <div style="left: 0; top: 0; animation-delay: 0s"></div>
+        <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+        <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+      </div>
+    </div>
+  </button>
+</form>

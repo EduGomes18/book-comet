@@ -1,0 +1,67 @@
+<form (ngSubmit)="submit()" [formGroup]="registerForm" #formDir="ngForm">
+  <h1>Welcome to Book Comet</h1>
+  <p>Register now</p>
+  <input
+    type="text"
+    formControlName="firstName"
+    placeholder="First Name"
+    minlength="2"
+    ngModel
+    required
+  />
+  <div class="error" *ngIf="firstName.invalid && formDir.submitted">
+    <p *ngIf="firstName.errors?.['required']">First name is required!</p>
+    <p *ngIf="firstName.errors?.['minlength']">Min of 2 length!</p>
+  </div>
+
+  <input
+    type="text"
+    formControlName="lastName"
+    required
+    placeholder="Last Name"
+  />
+
+  <input type="text" required placeholder="E-mail" formControlName="email" />
+
+  <div class="error" *ngIf="email.invalid && formDir.submitted">
+    <p *ngIf="email.errors?.['email']">E-mail is invalid!</p>
+    <p *ngIf="email.errors?.['required']">E-mail is required!</p>
+  </div>
+
+  <input
+    type="password"
+    required
+    placeholder="Password"
+    formControlName="password"
+  />
+  <div class="error" *ngIf="password.invalid && formDir.submitted">
+    <p *ngIf="password.errors?.['required']">Password is required!</p>
+    <p *ngIf="password.errors?.['minlength']">Min of 6 length!</p>
+  </div>
+
+  <input
+    type="password"
+    required
+    formControlName="confirmPassword"
+    placeholder="Confirm Password"
+  />
+
+  <div class="error" *ngIf="confirmPassword.invalid && formDir.submitted">
+    <p *ngIf="confirmPassword.errors?.['required']">
+      Password Confirmation is required!
+    </p>
+    <p *ngIf="confirmPassword.errors?.['minlength']">Min of 6 length!</p>
+  </div>
+
+  <a routerLink="/login">Login now</a>
+  <button type="submit">
+    {{ loading === false ? "Register!" : "" }}
+    <div *ngIf="loading === true" class="load-block">
+      <div class="load">
+        <div style="left: 0; top: 0; animation-delay: 0s"></div>
+        <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+        <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+      </div>
+    </div>
+  </button>
+</form>

@@ -1,0 +1,47 @@
+.d-flex {
+  display: flex;
+  width: 100%;
+}
+
+h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.modal {
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  height: 100%;
+  flex-direction: column;
+  top: 0;
+  z-index: 10;
+  background: #131d24;
+}
+
+form {
+  flex-direction: column;
+}
+
+button {
+  align-self: flex-end;
+}
+
+input,
+textarea,
+select {
+  margin-bottom: 10px;
+}
+
+.btnRow {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.btnRow button:first-of-type {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #131d24;
+}

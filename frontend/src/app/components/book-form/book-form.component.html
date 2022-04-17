@@ -1,0 +1,103 @@
+<div *ngIf="show" class="d-flex modal">
+  <div *ngIf="loading === true" class="loadingBox">
+    <div class="load-block">
+      <div class="load">
+        <div style="left: 0; top: 0; animation-delay: 0s"></div>
+        <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+        <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+      </div>
+    </div>
+  </div>
+  <h2>Register a new Book!</h2>
+  <form
+    (ngSubmit)="submit()"
+    [formGroup]="bookForm"
+    #formDir="ngForm"
+    class="d-flex"
+  >
+    <input type="text" formControlName="title" required placeholder="Title" />
+    <div class="error" *ngIf="title.invalid && formDir.submitted">
+      <p *ngIf="title.errors?.['required']">Title is required!</p>
+    </div>
+
+    <textarea
+      placeholder="Description"
+      formControlName="description"
+    ></textarea>
+    <input
+      type="text"
+      required
+      placeholder="Publisher"
+      formControlName="publisher"
+    />
+
+    <div class="error" *ngIf="publisher.invalid && formDir.submitted">
+      <p *ngIf="publisher.errors?.['required']">Publisher is required!</p>
+    </div>
+
+    <select required placeholder="Author" formControlName="author">
+      <option value="">Chose one author</option>
+      <option *ngFor="let author of authors" [value]="author?.id">
+        {{ author?.name }}
+      </option>
+    </select>
+
+    <div class="error" *ngIf="author.invalid && formDir.submitted">
+      <p *ngIf="author.errors?.['required']">Author is required!</p>
+    </div>
+
+    <select required placeholder="Type" formControlName="type">
+      <option value="">Chose one type</option>
+      <option value="book">Book</option>
+      <option value="eBook">eBook</option>
+    </select>
+
+    <div class="error" *ngIf="type.invalid && formDir.submitted">
+      <p *ngIf="type.errors?.['required']">Type is required!</p>
+    </div>
+
+    <input
+      type="text"
+      placeholder="Extension ex: EPUB"
+      formControlName="extension"
+    />
+
+    <input
+      required
+      type="number"
+      formControlName="publishedYear"
+      placeholder="Published Year ex: 2022"
+    />
+
+    <div class="error" *ngIf="publishedYear.invalid && formDir.submitted">
+      <p *ngIf="publishedYear.errors?.['required']">
+        Published year is required!
+      </p>
+    </div>
+
+    <textarea
+      placeholder="Summary"
+      required
+      formControlName="summary"
+    ></textarea>
+
+    <div class="error" *ngIf="summary.invalid && formDir.submitted">
+      <p *ngIf="summary.errors?.['required']">Summary is required!</p>
+    </div>
+
+    <div class="btnRow">
+      <button (click)="handleClose()">Cancel</button>
+
+      <button type="submit">
+        {{ loading === false ? "Create!" : "" }}
+        <div *ngIf="loading === true" class="load-block">
+          <div class="load">
+            <div style="left: 0; top: 0; animation-delay: 0s"></div>
+            <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+            <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </form>
+</div>
