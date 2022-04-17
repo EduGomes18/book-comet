@@ -187,7 +187,7 @@ export const findDb = async (collection = "", query = {}) => {
           error: noContent,
         };
 
-      const total = getCollection.length;
+      let total = getCollection.length;
 
       const { limit, search, searchField, page, orderBy, where, join } = query;
 
@@ -195,7 +195,7 @@ export const findDb = async (collection = "", query = {}) => {
       let offset = 0;
 
       if (limit) finalLimit = limit;
-      if (page) offset = Math.round(((page - 1) * finalLimit) / total);
+      if (page) offset = Math.round((page - 1) * finalLimit);
 
       let finalContent;
 
@@ -209,30 +209,40 @@ export const findDb = async (collection = "", query = {}) => {
         });
       } else if (search && searchField) {
         finalContent = getCollection.filter(
-          (content, ind) =>
-            content[searchField] &&
-            content[searchField].includes(search) &&
-            ind >= offset
+          (content) =>
+            content[searchField] && content[searchField].includes(search)
         );
+
+        total = finalContent.length;
+
+        if (page) offset = Math.round(((page - 1) * finalLimit) / total);
+
+        finalContent = finalContent
+          .sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0))
+          .filter((cont, ind) => ind >= offset)
+          .slice(0, limit);
       } else {
-        finalContent = getCollection.filter((id, ind) => ind >= offset);
+        if (orderBy) {
+          if (orderBy === "DESC") {
+            finalContent = getCollection
+              .sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0))
+              .filter((id, ind) => ind >= offset)
+              .slice(0, limit);
+          } else {
+            finalContent = getCollection
+              .sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0))
+              .filter((id, ind) => ind >= offset)
+              .slice(0, limit);
+          }
+        } else {
+          finalContent = getCollection
+            .sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0))
+            .filter((id, ind) => ind >= offset)
+            .slice(0, limit);
+        }
       }
 
       if (!finalContent) throw 406;
-
-      if (orderBy) {
-        if (orderBy === "DESC") {
-          finalContent = finalContent
-            .sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0))
-            .slice(0, limit);
-        } else {
-          finalContent = finalContent
-            .sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0))
-            .slice(0, limit);
-        }
-      } else {
-        finalContent = finalContent.slice(0, limit);
-      }
 
       if (join) {
         const findJoinCollection = dbData[`${join}s`];
@@ -248,7 +258,7 @@ export const findDb = async (collection = "", query = {}) => {
         }));
       }
 
-      return finalContent;
+      return { data: finalContent, total };
     } else {
       return {
         status: 404,

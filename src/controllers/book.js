@@ -65,7 +65,7 @@ export const createBook = async (req, res) => {
       title,
       description,
       keywords,
-      author,
+      author: Number(author),
       publisher,
       type,
       extension,
