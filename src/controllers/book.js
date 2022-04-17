@@ -104,6 +104,7 @@ export const getBooks = async (req, res) => {
       limit,
       search,
       searchField: "title",
+      join: "author",
       orderBy: order ? order : "DESC",
     });
 

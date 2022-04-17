@@ -24,7 +24,7 @@ export const createUser = async (req, res) => {
         message: `Invalid E-mail.`,
       });
 
-    if (!password || password?.length < 6) validate("email", 6);
+    if (!password || password?.length < 6) validate("password", 6);
     if (!firstName || firstName?.length < 2) validate("firstName", 2);
 
     const findUser = await findDb("users", {
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
       },
     });
 
-    if (findUser?.length === 0) {
+    if (findUser?.length > 0) {
       return missingResponse(res, {
         message: `User already registered with this e-mail.`,
       });
