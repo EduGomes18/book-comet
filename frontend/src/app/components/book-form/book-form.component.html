@@ -8,25 +8,66 @@
       </div>
     </div>
   </div>
-  <h2>Register a new Book!</h2>
+  <h2 *ngIf="selectedBook?.id; else bookTitle">
+    Editing Book: {{ selectedBook.title }}
+  </h2>
+  <ng-template #bookTitle>
+    <h2>Register a new Book!</h2>
+  </ng-template>
+
+  <div
+    class="quantityBody"
+    *ngIf="selectedBook && selectedBook.inventory; else addFirstQuantity"
+  >
+    <span
+      >Book Quantity in Inventory:
+      <b>{{
+        selectedBook.inventory?.quantity ? selectedBook.inventory.quantity : "0"
+      }}</b></span
+    >
+    <div class="quantity">
+      <button (click)="decrement()" class="btnErr">-</button>
+      <button (click)="increment()">+</button>
+    </div>
+  </div>
+  <ng-template #addFirstQuantity>
+    <div class="quantityBody">
+      <span
+        >Book Quantity in Inventory: <b>{{ firstQuantity }}</b></span
+      >
+      <div class="quantity">
+        <button (click)="decrement()" class="btnErr">-</button>
+        <button (click)="increment()">+</button>
+      </div>
+    </div>
+  </ng-template>
+
   <form
     (ngSubmit)="submit()"
     [formGroup]="bookForm"
     #formDir="ngForm"
     class="d-flex"
   >
-    <input type="text" formControlName="title" required placeholder="Title" />
+    <input
+      type="text"
+      [(ngModel)]="selectedBook.title"
+      formControlName="title"
+      required
+      placeholder="Title"
+    />
     <div class="error" *ngIf="title.invalid && formDir.submitted">
       <p *ngIf="title.errors?.['required']">Title is required!</p>
     </div>
 
     <textarea
       placeholder="Description"
+      [(ngModel)]="selectedBook.description"
       formControlName="description"
     ></textarea>
     <input
       type="text"
       required
+      [(ngModel)]="selectedBook.publisher"
       placeholder="Publisher"
       formControlName="publisher"
     />
@@ -35,7 +76,17 @@
       <p *ngIf="publisher.errors?.['required']">Publisher is required!</p>
     </div>
 
-    <select required placeholder="Author" formControlName="author">
+    <select
+      [ngModel]="
+        selectedBook && selectedBook.author ? selectedBook.author.id : ''
+      "
+      (ngModelChange)="
+        selectedBook && selectedBook.author && (selectedBook.author.id = $event)
+      "
+      required
+      placeholder="Author"
+      formControlName="author"
+    >
       <option value="">Chose one author</option>
       <option *ngFor="let author of authors" [value]="author?.id">
         {{ author?.name }}
@@ -46,10 +97,18 @@
       <p *ngIf="author.errors?.['required']">Author is required!</p>
     </div>
 
-    <select required placeholder="Type" formControlName="type">
+    <select
+      [ngModel]="selectedBook && selectedBook.type ? selectedBook.type : ''"
+      (ngModelChange)="
+        selectedBook && selectedBook.type && (selectedBook.type = $event)
+      "
+      required
+      placeholder="Type"
+      formControlName="type"
+    >
       <option value="">Chose one type</option>
       <option value="book">Book</option>
-      <option value="eBook">eBook</option>
+      <option value="ebook">eBook</option>
     </select>
 
     <div class="error" *ngIf="type.invalid && formDir.submitted">
@@ -58,6 +117,7 @@
 
     <input
       type="text"
+      [(ngModel)]="selectedBook.extension"
       placeholder="Extension ex: EPUB"
       formControlName="extension"
     />
@@ -65,6 +125,7 @@
     <input
       required
       type="number"
+      [(ngModel)]="selectedBook.publishedYear"
       formControlName="publishedYear"
       placeholder="Published Year ex: 2022"
     />
@@ -78,6 +139,7 @@
     <textarea
       placeholder="Summary"
       required
+      [(ngModel)]="selectedBook.summary"
       formControlName="summary"
     ></textarea>
 
@@ -86,10 +148,36 @@
     </div>
 
     <div class="btnRow">
-      <button (click)="handleClose()">Cancel</button>
+      <button type="button" (click)="handleClose()">Cancel</button>
+
+      <button
+        type="button"
+        (click)="confirmDelete()"
+        class="btnErr"
+        *ngIf="selectedBook?.id"
+      >
+        Delete Book
+      </button>
+
+      <div *ngIf="selectedBook?.id && showDelete" class="confirmDelete">
+        <span>Do you Confirm delete this?</span>
+        <div class="confirRow">
+          <button (click)="confirmDelete()" type="button" class="btnSmall">
+            Cancel
+          </button>
+          <button
+            type="button"
+            (click)="handleDelete()"
+            class="btnSmall btnErr"
+          >
+            Confirm!
+          </button>
+        </div>
+      </div>
 
       <button type="submit">
-        {{ loading === false ? "Create!" : "" }}
+        {{ !selectedBook.id && loading === false ? "Create!" : "" }}
+        {{ selectedBook.id && loading === false ? "Edit!" : "" }}
         <div *ngIf="loading === true" class="load-block">
           <div class="load">
             <div style="left: 0; top: 0; animation-delay: 0s"></div>

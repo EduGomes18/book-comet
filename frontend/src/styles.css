@@ -185,6 +185,10 @@ p {
   transition: all 0.3s ease-in-out;
 }
 
+.btnErr {
+  background-color: #d3213c;
+}
+
 .loadingBox {
   position: absolute;
   width: 100%;

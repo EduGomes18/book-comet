@@ -23,19 +23,20 @@
       </div>
     </div>
     <div class="tableLineHeader d-flex">
-      <div class="d-flex col colb">
+      <div class="d-flex col sm colb">
         <span>#ID</span>
       </div>
       <div class="d-flex col colb"><span>Title</span></div>
       <div class="d-flex col colb"><span>Author</span></div>
-      <div class="d-flex col colb"><span>Type</span></div>
+      <div class="d-flex col sm colb"><span>Type</span></div>
       <div class="d-flex col colb"><span>Published year</span></div>
-      <div class="d-flex col colb"><span>Actions</span></div>
+      <div class="d-flex col md colb"><span>Quantity</span></div>
+      <div class="d-flex col sm colb"><span>Actions</span></div>
     </div>
 
     <div *ngIf="books.length > 0; else noData">
       <div *ngFor="let book of books" class="tableLine d-flex">
-        <div class="d-flex col">
+        <div class="d-flex col sm">
           <span>{{ book.id }}</span>
         </div>
         <div class="d-flex col">
@@ -44,14 +45,17 @@
         <div class="d-flex col">
           <span>{{ book.author?.name }} {{ book.author?.surname }}</span>
         </div>
-        <div class="d-flex col">
+        <div class="d-flex sm col">
           <span>{{ book.type }}</span>
         </div>
         <div class="d-flex col">
           <span>{{ book.publishedYear }}</span>
         </div>
-        <div class="d-flex col">
-          <button class="btnSmall">Edit</button>
+        <div class="d-flex md col">
+          <span>{{ book?.inventory ? book.inventory?.quantity : "-" }}</span>
+        </div>
+        <div class="d-flex sm col">
+          <button (click)="handleSelect(book)" class="btnSmall">Edit</button>
         </div>
       </div>
       <div class="tableFooter d-flex">
@@ -81,5 +85,9 @@
       </div>
     </ng-template>
   </div>
-  <app-book-form [show]="show" (close)="onClose()"></app-book-form>
+  <app-book-form
+    [show]="show"
+    [selectedBook]="selectedBook"
+    (close)="onClose()"
+  ></app-book-form>
 </div>

@@ -57,11 +57,18 @@ h1 {
 }
 
 .col {
-  width: auto;
-  max-width: 150px;
-  min-width: 150px;
+  width: 100%;
+  max-width: 140px;
   align-items: center;
   padding: 0 6px;
+}
+
+.sm {
+  width: 70px;
+}
+
+.md {
+  width: 100px;
 }
 
 .col:not(:last-of-type) {
@@ -70,6 +77,7 @@ h1 {
 
 .col span {
   font-size: 14px;
+  width: 100%;
   max-width: 150px;
   text-overflow: ellipsis;
   white-space: nowrap;

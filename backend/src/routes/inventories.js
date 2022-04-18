@@ -8,6 +8,7 @@ import {
   addBookInventory,
   removeBookInventory,
   deleteInventory,
+  updateInventory,
 } from "../controllers/inventory";
 
 import {
@@ -20,6 +21,7 @@ import { verifyToken } from "../middlewares/auth";
 router.get("/", verifyToken, validateInventoryQuery, getInventories);
 router.get("/:id", verifyToken, validateInventoryQuery, getInventoryById);
 router.post("/", verifyToken, validateInventoryReq, createInventory);
+router.put("/:id", verifyToken, validateInventoryReq, updateInventory);
 router.delete("/:id", verifyToken, validateInventoryReq, deleteInventory);
 router.put("/add/:id", verifyToken, validateInventoryReq, addBookInventory);
 router.put(

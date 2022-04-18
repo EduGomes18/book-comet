@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Books } from '../../../interfaces/Books';
-import { User } from '../../../interfaces/User';
-import { DashboardService } from 'src/app/services/dashboard.service';
-import { LoginService } from 'src/app/services/login.service';
+import { Component, OnInit } from "@angular/core";
+import { Books } from "../../../interfaces/Books";
+import { User } from "../../../interfaces/User";
+import { DashboardService } from "src/app/services/dashboard.service";
+import { LoginService } from "src/app/services/login.service";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
   show: boolean = false;
   books: Books[] = [];
-  searchInput = '';
+  searchInput = "";
   loading: boolean = false;
   pages = 1;
   total = 0;
-  type = '';
+  type = "";
   user = {} as User;
+  selectedBook = {} as Books;
 
   pagination = {
     limit: 10,
@@ -31,7 +32,6 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit() {
     if (this.loginService.userInfo()) {
-      console.log(this.loginService.userInfo());
       this.user = this.loginService.userInfo();
     }
     this.loading = true;
@@ -65,9 +65,9 @@ export class DashboardComponent implements OnInit {
     const page = {
       ...this.pagination,
       page:
-        this.type === 'next'
+        this.type === "next"
           ? this.pagination.page + 1
-          : this.type === 'prev'
+          : this.type === "prev"
           ? this.pagination.page - 1
           : 1,
     };
@@ -95,6 +95,12 @@ export class DashboardComponent implements OnInit {
 
   onClose() {
     this.show = false;
+    this.selectedBook = {} as Books;
     this.handleData();
+  }
+
+  handleSelect(book: Books) {
+    this.selectedBook = book;
+    this.handleShow();
   }
 }

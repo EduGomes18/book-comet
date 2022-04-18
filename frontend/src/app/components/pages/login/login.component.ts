@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from 'src/app/services/login.service';
-import { User } from '../../../interfaces/User';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { LoginService } from "src/app/services/login.service";
+import { User } from "../../../interfaces/User";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -19,17 +19,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.email, Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.min(6)]),
+      email: new FormControl("", [Validators.email, Validators.required]),
+      password: new FormControl("", [Validators.required, Validators.min(6)]),
     });
   }
 
   get email() {
-    return this.loginForm.get('email')!;
+    return this.loginForm.get("email")!;
   }
 
   get password() {
-    return this.loginForm.get('password')!;
+    return this.loginForm.get("password")!;
   }
 
   async submit() {
@@ -40,9 +40,8 @@ export class LoginComponent implements OnInit {
     //fake loading hehe
     setTimeout(() => {
       this.loading = false;
-      console.log('resposta', res);
       if (res?.token) {
-        this.route.navigate(['dashboard']);
+        this.route.navigate(["dashboard"]);
       }
     }, 500);
   }

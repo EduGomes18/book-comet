@@ -100,9 +100,9 @@ export const addBookInventory = async (req, res) => {
     const { quantity } = req.body;
     const { id } = req.params;
 
-    if (!quantity || quantity < 0)
+    if (quantity !== 0 && Math.sign(quantity) === -1)
       return missingResponse(res, {
-        message: "Missing quantity, or quantity less than 1.",
+        message: "Missing quantity, or quantity less than 0.",
       });
 
     const content = await findOneDb("inventories", id);
@@ -123,14 +123,42 @@ export const addBookInventory = async (req, res) => {
   }
 };
 
+export const updateInventory = async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const { id } = req.params;
+
+    if (quantity !== 0 && Math.sign(quantity) === -1)
+      return missingResponse(res, {
+        message: "Missing quantity, or quantity less than 0.",
+      });
+
+    const content = await findOneDb("inventories", id);
+
+    if (content.error) return errorResponse(res, content.error, content.status);
+
+    const updateInventory = await updateDb("inventories", id, {
+      quantity: quantity,
+      updated_at: new Date(),
+    });
+
+    if (updateInventory.error)
+      return errorResponse(res, updateInventory.error, updateInventory.status);
+
+    return successResponse(res, updateInventory);
+  } catch (error) {
+    return errorResponse(res, error);
+  }
+};
+
 export const removeBookInventory = async (req, res) => {
   try {
     const { quantity } = req.body;
     const { id } = req.params;
 
-    if (!quantity || quantity < 0)
+    if (quantity !== 0 && Math.sign(quantity) === -1)
       return missingResponse(res, {
-        message: "Missing quantity, or quantity less than 1.",
+        message: "Missing quantity, or quantity less than 0.",
       });
 
     const content = await findOneDb("inventories", id);

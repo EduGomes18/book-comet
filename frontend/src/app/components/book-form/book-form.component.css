@@ -36,11 +36,72 @@ select {
 
 .btnRow {
   display: flex;
+  position: relative;
   width: 100%;
   justify-content: flex-end;
 }
 
 .btnRow button:first-of-type {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #131d24;
+}
+.btnRow button:last-of-type {
+  margin-left: 10px;
+}
+
+.quantityBody {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quantityBody span {
+  color: #ffffff;
+  font-size: 14px;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+
+.quantityBody span b {
+  font-size: 16px;
+}
+
+.quantity {
+  display: flex;
+  max-width: 150px;
+  align-items: center;
+}
+
+.quantity input {
+  width: 100px;
+}
+
+.confirmDelete {
+  flex-direction: column;
+  display: flex;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 50px;
+  display: flex;
+  background-color: #ffffff;
+  padding: 8px 20px;
+}
+
+.confirmDelete span {
+  color: #202103;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-family: "RetroGaming", Arial, Helvetica, sans-serif;
+}
+
+.confirRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirRow button:first-of-type {
   margin-right: 10px;
   background-color: #ffffff;
   color: #131d24;

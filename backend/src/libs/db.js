@@ -245,17 +245,22 @@ export const findDb = async (collection = "", query = {}) => {
       if (!finalContent) throw 406;
 
       if (join) {
-        const findJoinCollection = dbData[`${join}s`];
-        if (!findJoinCollection || findJoinCollection.length === 0)
-          return {
-            error: `Error searching for ${join} collection, notFound`,
-            status: 404,
-          };
+        join.map((jn) => {
+          const findJoinCollection = dbData[jn.collection];
 
-        finalContent = finalContent.map((cont) => ({
-          ...cont,
-          [join]: findJoinCollection.find((cl) => cl.id === cont[join]),
-        }));
+          if (!findJoinCollection || findJoinCollection.length === 0)
+            return {
+              error: `Error searching for ${jn.field} collection, notFound`,
+              status: 404,
+            };
+
+          finalContent = finalContent.map((cont) => ({
+            ...cont,
+            [jn.field]: findJoinCollection.find(
+              (cl) => cl.id === cont[jn.field] || cl[jn.relation] === cont.id
+            ),
+          }));
+        });
       }
 
       return { data: finalContent, total };

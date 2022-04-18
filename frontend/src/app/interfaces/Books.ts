@@ -8,6 +8,12 @@ export interface Books {
     name: string;
     surname: string;
   };
+  inventory: {
+    id?: number;
+    quantity: number;
+    created_at?: Date;
+    updated_at?: Date;
+  };
   publisher: string;
   type: string;
   extension: string;
