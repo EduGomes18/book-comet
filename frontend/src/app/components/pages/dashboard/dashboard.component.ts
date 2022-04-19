@@ -3,6 +3,7 @@ import { Books } from "../../../interfaces/Books";
 import { User } from "../../../interfaces/User";
 import { DashboardService } from "src/app/services/dashboard.service";
 import { LoginService } from "src/app/services/login.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -11,6 +12,7 @@ import { LoginService } from "src/app/services/login.service";
 })
 export class DashboardComponent implements OnInit {
   show: boolean = false;
+  showAuthor: boolean = false;
   books: Books[] = [];
   searchInput = "";
   loading: boolean = false;
@@ -27,7 +29,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private route: Router
   ) {}
 
   async ngOnInit() {
@@ -68,7 +71,9 @@ export class DashboardComponent implements OnInit {
         this.type === "next"
           ? this.pagination.page + 1
           : this.type === "prev"
-          ? this.pagination.page - 1
+          ? this.pagination.page - 1 <= 0
+            ? 1
+            : this.pagination.page - 1
           : 1,
     };
 
@@ -89,6 +94,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  handleShowAuthor() {
+    this.showAuthor = true;
+  }
+
   handleShow() {
     this.show = true;
   }
@@ -99,8 +108,17 @@ export class DashboardComponent implements OnInit {
     this.handleData();
   }
 
+  onCloseAuthor() {
+    this.showAuthor = false;
+    this.handleData();
+  }
+
   handleSelect(book: Books) {
     this.selectedBook = book;
     this.handleShow();
+  }
+
+  handleLogout() {
+    this.route.navigate(["login"]);
   }
 }

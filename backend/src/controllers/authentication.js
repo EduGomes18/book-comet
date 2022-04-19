@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
       },
     });
 
-    if (findUser?.length > 0) {
+    if (findUser && findUser.data && findUser.data.length > 0) {
       return missingResponse(res, {
         message: `User already registered with this e-mail.`,
       });
@@ -41,7 +41,7 @@ export const createUser = async (req, res) => {
 
     const encryptedPassword = await bcrypt.hash(password.trim(), 10);
 
-    const newUser = await createDb("users", {
+    let newUser = await createDb("users", {
       firstName: firstName.trim(),
       lastName,
       email: email.trim().toLowerCase(),
@@ -50,8 +50,24 @@ export const createUser = async (req, res) => {
       updated_at: new Date(),
     });
 
-    return successResponse(res, newUser);
+    if (newUser.users) {
+      newUser = newUser.users[0];
+    }
+
+    const token = jwt.sign(
+      { user_id: newUser?.id, email: newUser?.email },
+      process.env.TOKEN_KEY || "small_and_useless_key",
+      {
+        expiresIn: "12d",
+      }
+    );
+    const saveToken = { ...newUser, token };
+
+    const authenticatedUser = await updateDb("users", saveToken.id, saveToken);
+
+    return successResponse(res, authenticatedUser);
   } catch (error) {
+    console.log("Error ->", error);
     return errorResponse(res, error);
   }
 };
@@ -80,17 +96,17 @@ export const auth = async (req, res) => {
       return errorResponse(res, findUser.error, findUser.status);
 
     if (
-      findUser?.length > 0 &&
-      (await bcrypt.compare(password, findUser[0].password))
+      findUser?.data?.length > 0 &&
+      (await bcrypt.compare(password, findUser?.data[0]?.password))
     ) {
       const token = jwt.sign(
-        { user_id: findUser[0].id, email },
+        { user_id: findUser?.data[0].id, email },
         process.env.TOKEN_KEY || "small_and_useless_key",
         {
           expiresIn: "12d",
         }
       );
-      const saveToken = { ...findUser[0], token };
+      const saveToken = { ...findUser.data[0], token };
 
       const authenticatedUser = await updateDb(
         "users",
@@ -105,6 +121,7 @@ export const auth = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return errorResponse(res, error);
   }
 };

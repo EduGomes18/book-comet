@@ -89,7 +89,7 @@
     >
       <option value="">Chose one author</option>
       <option *ngFor="let author of authors" [value]="author?.id">
-        {{ author?.name }}
+        {{ author?.name }} {{ author?.surname }}
       </option>
     </select>
 

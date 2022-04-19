@@ -1,5 +1,9 @@
 <div class="block d-flex">
-  <h1>Welcome {{ user.firstName }}, to Book comet!</h1>
+  <div class="d-flex headerLogout">
+    <h1>Welcome {{ user.firstName }}, to Book comet!</h1>
+    <button (click)="handleLogout()" class="btnSmall btnErr">Logout</button>
+  </div>
+
   <div class="tableHeader d-flex">
     <div class="searchGroup">
       <input
@@ -10,7 +14,10 @@
       <button (click)="handleData()">Search</button>
     </div>
 
-    <button (click)="handleShow()">Add Book</button>
+    <div class="btnRow">
+      <button (click)="handleShowAuthor()">Add Author</button>
+      <button (click)="handleShow()">Add Book</button>
+    </div>
   </div>
   <div class="table d-flex">
     <div *ngIf="loading === true" class="loadingBox">
@@ -90,4 +97,8 @@
     [selectedBook]="selectedBook"
     (close)="onClose()"
   ></app-book-form>
+  <app-author-form
+    [show]="showAuthor"
+    (close)="onCloseAuthor()"
+  ></app-author-form>
 </div>

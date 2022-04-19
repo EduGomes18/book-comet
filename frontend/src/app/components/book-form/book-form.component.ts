@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DashboardService } from "src/app/services/dashboard.service";
 import { Author } from "src/app/interfaces/Author";
@@ -8,7 +16,7 @@ import { Books } from "src/app/interfaces/Books";
   templateUrl: "./book-form.component.html",
   styleUrls: ["./book-form.component.css"],
 })
-export class BookFormComponent implements OnInit {
+export class BookFormComponent implements OnInit, OnChanges {
   @Output() close: EventEmitter<boolean> = new EventEmitter();
   @Input() show: boolean = false;
   @Input() selectedBook = {} as Books;
@@ -33,6 +41,30 @@ export class BookFormComponent implements OnInit {
       summary: new FormControl("", [Validators.required]),
     });
 
+    this.loading = true;
+
+    const res = await this.dashboardService.getAuthors();
+    if (res) {
+      setTimeout(() => {
+        this.loading = false;
+        this.authors = res.data;
+      }, 500);
+    } else {
+      this.loading = false;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes["show"] &&
+      changes["show"]?.previousValue != changes["show"]?.currentValue
+    ) {
+      // Do Something triggered by the parent button.
+      this.getAuthors();
+    }
+  }
+
+  async getAuthors() {
     this.loading = true;
 
     const res = await this.dashboardService.getAuthors();
@@ -110,6 +142,7 @@ export class BookFormComponent implements OnInit {
   decrement() {
     if (this.selectedBook?.id && this.selectedBook.inventory) {
       const quantity = this.selectedBook.inventory.quantity;
+
       this.selectedBook = {
         ...this.selectedBook,
         inventory: {
@@ -118,8 +151,9 @@ export class BookFormComponent implements OnInit {
         },
       };
     } else {
+      console.log(this.firstQuantity);
       this.firstQuantity =
-        this.firstQuantity + 1 <= 0 ? 0 : this.firstQuantity - 1;
+        this.firstQuantity - 1 <= 0 ? 0 : this.firstQuantity - 1;
     }
   }
 

@@ -75,6 +75,20 @@ export class DashboardService {
     return response;
   }
 
+  async createAuthor(author: Author) {
+    const response = await this.http
+      .post<Response<Author>>(`${this.apiUrl}author`, author)
+      .toPromise()
+      .catch((err) => {
+        console.log(err);
+        if (err?.error?.message) this.toastr.error(err.error.message);
+        if (err?.error?.error) this.toastr.error(err.error.error);
+        else this.toastr.error("Error conecting with server, try again later.");
+      });
+
+    return response;
+  }
+
   async updateBook(id: number, book: Books, quantity?: any) {
     const response = await this.http
       .put<Response<Books>>(`${this.apiUrl}book/${id}`, book)

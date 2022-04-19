@@ -1,0 +1,49 @@
+<div *ngIf="show" class="d-flex modal">
+  <div *ngIf="loading === true" class="loadingBox">
+    <div class="load-block">
+      <div class="load">
+        <div style="left: 0; top: 0; animation-delay: 0s"></div>
+        <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+        <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+      </div>
+    </div>
+  </div>
+  <h2>Register a new Author!</h2>
+
+  <form
+    (ngSubmit)="submit()"
+    [formGroup]="authorForm"
+    #formDir="ngForm"
+    class="d-flex"
+  >
+    <input type="text" formControlName="name" required placeholder="Name" />
+    <div class="error" *ngIf="name.invalid && formDir.submitted">
+      <p *ngIf="name.errors?.['required']">Name is required!</p>
+    </div>
+
+    <input
+      type="text"
+      formControlName="surname"
+      required
+      placeholder="Surname"
+    />
+    <div class="error" *ngIf="surname.invalid && formDir.submitted">
+      <p *ngIf="surname.errors?.['required']">Surname is required!</p>
+    </div>
+
+    <div class="btnRow">
+      <button type="button" (click)="handleClose()">Cancel</button>
+
+      <button type="submit">
+        Create!
+        <div *ngIf="loading === true" class="load-block">
+          <div class="load">
+            <div style="left: 0; top: 0; animation-delay: 0s"></div>
+            <div style="left: 10px; top: 0; animation-delay: 0.125s"></div>
+            <div style="left: 20px; top: 0; animation-delay: 0.25s"></div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </form>
+</div>

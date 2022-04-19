@@ -178,7 +178,10 @@ export const deleteBook = async (req, res) => {
       },
     });
 
-    if (findInventory.data.length > 0 && findInventory.data[0].quantity > 0) {
+    if (
+      findInventory?.data?.length > 0 &&
+      findInventory?.data[0]?.quantity > 0
+    ) {
       return missingResponse(res, {
         message:
           "Canot delete book, the book has inventory with quantity positive.",
@@ -190,7 +193,7 @@ export const deleteBook = async (req, res) => {
     if (deletedBook.error)
       return errorResponse(res, deletedBook.error, deletedBook.status);
 
-    if (findInventory?.data[0]?.id) {
+    if (findInventory.data && findInventory?.data[0]?.id) {
       const removeInventory = findInventory?.data?.map(async (inv) => {
         const deleteInventory = await deleteDb("inventories", inv.id);
         if (deleteInventory.error)

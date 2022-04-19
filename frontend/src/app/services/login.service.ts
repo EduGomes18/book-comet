@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { ToastrService } from "ngx-toastr";
 
-import { environment } from 'src/environments/environment';
-import { User } from '../interfaces/User';
+import { environment } from "src/environments/environment";
+import { User } from "../interfaces/User";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LoginService {
   private baseApiUrl = environment.baseUrl;
@@ -19,21 +19,26 @@ export class LoginService {
       .post<User>(this.apiUrl, user)
       .toPromise()
       .catch((err) => {
+        console.log(err);
         if (err?.error?.message) this.toastr.error(err.error.message);
-        else this.toastr.error('Error conecting with server, try again later.');
+        else this.toastr.error("Error conecting with server, try again later.");
       });
-    const json = JSON.stringify(response);
-    localStorage.setItem('user', json);
+
+    if (response) {
+      const json = JSON.stringify(response);
+      localStorage.setItem("user", json);
+    }
+
     return response;
   }
 
   IsLogged() {
-    return localStorage.getItem('user') != null;
+    return localStorage.getItem("user") != null;
   }
 
   userInfo() {
-    if (localStorage.getItem('user') !== null) {
-      const getUser = JSON.parse(localStorage.getItem('user') || '');
+    if (localStorage.getItem("user") !== null) {
+      const getUser = JSON.parse(localStorage.getItem("user") || "");
 
       return getUser;
     } else return null;

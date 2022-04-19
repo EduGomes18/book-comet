@@ -12,6 +12,7 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { LoginComponent } from './components/pages/login/login.component';
 import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
+import { AuthorFormComponent } from './components/author-form/author-form.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { BookFormComponent } from './components/book-form/book-form.component';
     LoginComponent,
     DashboardComponent,
     BookFormComponent,
+    AuthorFormComponent,
   ],
   imports: [
     BrowserModule,
