@@ -24,6 +24,41 @@ I build the frontend only with Angular 13 build in methods, the layout used its 
 cd ./frontend && npm install && npm start
 ```
 
+### Next you can see some Gifs for the flow.. Thak you all!
+
+*Register Flux*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/register.gif?raw=true "Register flux")
+
+*Create Author*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/create-author.gif?raw=true "Create Author")
+
+*Form Validations*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/Form-validations.gif?raw=true "Form Validations")
+
+
+*Finally Create Book*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/create-book.gif?raw=true "Create Book")
+
+
+*Inventory Flow. Blocking delete when its positive.*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/cant-remove.gif?raw=true "Inventory")
+
+
+*Nice pagination and searching haha.*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/pagination.gif?raw=true "Pagination")
+
+
+*Logout and Login.*
+
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/login-flow.gif?raw=true "Logout Login")
+
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
