@@ -20,7 +20,7 @@ The most interesting part of the Backend is that i build a ORM with JSON based d
 ![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/insomnia.png?raw=true "Insomnia")
 
 
-## The Frontend
+## The Frontend <img src="https://angularlogos.com/assets/angular.svg" width="48" />
 
 I build the frontend only with Angular 13 build in methods, the layout used its just for funny (build by myself hehe), for testing you can create your account in */register* or login in */login*, you will be redirected to dashboard page authenticated, and there you can create Books and play around with Inventory and Authors.
 
