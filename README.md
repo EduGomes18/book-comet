@@ -16,6 +16,10 @@ You can import the json in insomnia and have all the api methods configured to r
 *Books*, *Authors*, *Inventories* and *Authentication*.
 The most interesting part of the Backend is that i build a ORM with JSON based database, reusing all the methods to all the CRUDS, they work with most part of database languages methods like, order by, limit, offset(page), where clause etc.. 
 
+*The Insomnia Requests*
+![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/insomnia.png?raw=true "Insomnia")
+
+
 ## The Frontend
 
 I build the frontend only with Angular 13 build in methods, the layout used its just for funny (build by myself hehe), for testing you can create your account in */register* or login in */login*, you will be redirected to dashboard page authenticated, and there you can create Books and play around with Inventory and Authors.
