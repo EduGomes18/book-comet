@@ -2,7 +2,7 @@
 
 This project was made for a enterview test, i build a backend 100% in node js, only using express with some babel modules for new es6 sintax and also functional programming. The frontend its in Angular with full authentication flux and basic CRUD based in the api methods.
 
-## The Back end
+## The Back end <img src="https://cloud.githubusercontent.com/assets/950112/14019753/42d42554-f1fa-11e5-86e9-9cf07c6bd55e.png" alt="expressjs" width="25"/>
 
 Use nodejs 14.v+ to run it fluid 
 
@@ -20,7 +20,7 @@ The most interesting part of the Backend is that i build a ORM with JSON based d
 ![alt text](https://github.com/EduGomes18/book-comet/blob/main/gifs/insomnia.png?raw=true "Insomnia")
 
 
-## The Frontend <img src="https://angularlogos.com/assets/angular.svg" width="48" />
+## The Frontend <img src="https://angularlogos.com/assets/angular.svg" width="25" />
 
 I build the frontend only with Angular 13 build in methods, the layout used its just for funny (build by myself hehe), for testing you can create your account in */register* or login in */login*, you will be redirected to dashboard page authenticated, and there you can create Books and play around with Inventory and Authors.
 
